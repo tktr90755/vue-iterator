@@ -1,7 +1,8 @@
 <template>
   <div>
     <div>
-      <button @click="excute">{{methodName}}</button>
+      <button @click="excute(false)">{{methodName}}</button>
+      <button @click="excute(true)">Loop</button>
       <ul>
         <li v-for="(item, i) in list" :key="item">
           <Card :imagePath=item :ref="item"/>
@@ -14,6 +15,7 @@
 
 <script>
 import Card from "@/components/Card.vue";
+import Ticker from '@/assets/js/libs/tk90755/display/Ticker.js'
 import Item from '@/assets/js/libs/tk90755/utils/iterator/Item.js'
 import Iterator from '@/assets/js/libs/tk90755/utils/iterator/Iterator.js'
 
@@ -44,6 +46,7 @@ export default {
     }
   },
   mounted() {
+    Ticker.interval(20);
     this.iterator = new Iterator();
     for(let i in this.list){
       let path = this.list[i]
@@ -51,15 +54,31 @@ export default {
     }
   },
   methods: {
-    excute() {
-      if(this.methodName == 'next'){
-        this._next();
-      }else if(this.methodName == 'prev'){
-        this._prev();
-      }else if(this.methodName == 'shuffle'){
-        this._shuffle();
-      }else if(this.methodName == 'random'){
-        this._random();
+    excute(judge) {
+      if(judge){
+        if(Ticker.hasItem(this.methodName)){
+          Ticker.kill(this.methodName);
+        }else{
+          if(this.methodName == 'next'){
+            Ticker.add(this._next, this.methodName);
+          }else if(this.methodName == 'prev'){
+            Ticker.add(this._prev, this.methodName);
+          }else if(this.methodName == 'shuffle'){
+            Ticker.add(this._shuffle, this.methodName);
+          }else if(this.methodName == 'random'){
+            Ticker.add(this._random, this.methodName);
+          }
+        }
+      }else{
+        if(this.methodName == 'next'){
+          this._next();
+        }else if(this.methodName == 'prev'){
+          this._prev();
+        }else if(this.methodName == 'shuffle'){
+          this._shuffle();
+        }else if(this.methodName == 'random'){
+          this._random();
+        }
       }
     },
     _next(){

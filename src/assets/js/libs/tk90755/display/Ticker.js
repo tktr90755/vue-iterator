@@ -13,8 +13,7 @@
     window.requestAnimationFrame = function(callback) {
       var currTime = new Date().getTime();
       var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-      var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
-        timeToCall);
+      var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
       lastTime = currTime + timeToCall;
       return id;
     };
@@ -29,6 +28,8 @@
 class Ticker {
   constructor(){
     this.renderId = undefined;
+    this._interval = 0;
+    this._count = 0;
     this.items = {};
   }
 
@@ -83,15 +84,26 @@ class Ticker {
     return this.items[id]
   }
 
-  _render()
-	{
-		for (let i in this.items)
-		{
-			this.items[i]();
+  interval(value){
+    this._interval = Math.max(0, value);
+  }
+
+  _render(){
+
+    this._count++;
+    if(this._count > this._interval){
+      for (let i in this.items)
+      {
+        this.items[i]();
+      }
+      this._count = 0;
     }
+
     if(Object.keys(this.items).length >= 1){
       window.cancelAnimationFrame(this.renderId);
-      this.renderId = window.requestAnimationFrame(() => {this._render()});
+      this.renderId = window.requestAnimationFrame(() => {
+        this._render()
+      });
     }
 	}
 }
