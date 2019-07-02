@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <Cards msg="Welcome to Your Vue.js App"/>
+    <Cards methodName='next'/>
+    <Cards methodName='prev'/>
+    <Cards methodName='shuffle'/>
+    <Cards methodName='random'/>
   </div>
 </template>
 
 <script>
-import Cards from './components/Cards.vue'
+import Cards from '@/components/Cards.vue'
 
 export default {
   name: 'app',
@@ -16,12 +19,4 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

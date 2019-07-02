@@ -24,6 +24,9 @@ setInterval(function(){
 	console.log("shuffle:"+iIterator.shuffle().name());
 }, 100);
 */
+
+import ArrayUtil from '@/assets/js/libs/tk90755/utils/ArrayUtil.js'
+
 export default class Iterator {
   constructor() {
     this._list= [];
@@ -74,14 +77,14 @@ export default class Iterator {
   //  next 次へ進む
   next(){
     this._index++;
-    return getItemAt(this._index);
+    return this.getItemAt(this._index);
   }
   
   //__________________________________________________________________________________
   //  prev 前へ進む
   prev(){
     this._index--;
-    return getItemAt(this._index);
+    return this.getItemAt(this._index);
   }
 
   //__________________________________________________________________________________
@@ -91,7 +94,7 @@ export default class Iterator {
    */
   pickup(index){
     this._index = index;
-    return getItemAt(index);
+    return this.getItemAt(index);
   }
   
   //__________________________________________________________________________________
@@ -105,14 +108,14 @@ export default class Iterator {
   //  last 最後のItemを取得
   last(){ 
     this._index = this._list.length - 1;
-    return pickup(this._list.length - 1); 
+    return this.pickup(this._list.length - 1); 
   };
   
   //__________________________________________________________________________________
   //  random	shuffleとの違いは連続して同じ物が出る事があるということ(0->2->2->3とかね)
   random(){ 
     let r = Math.random() * this._list.length;
-    return pickup(Math.floor(r)); 
+    return this.pickup(Math.floor(r)); 
   };
 
   //__________________________________________________________________________________
@@ -127,15 +130,13 @@ export default class Iterator {
     let l;
     let clone;
     
-    if (this.shuffleList === null)
-    {
+    if (this.shuffleList === undefined){
       if (init !== undefined && typeof(init) === 'function') init();
       this.shuffleCount = 0;
       this.shuffleList = [];
-      clone = ArrayUtil.copy(_list);
+      clone = ArrayUtil.copy(this._list);
       l = clone.length;
-      for (i = 0; i < l; i++)
-      {
+      for (i = 0; i < l; i++){
         let r = Math.random() * clone.length;
         this.shuffleList[i] = clone[Math.floor(r)];
         clone.splice(r, 1);
@@ -143,25 +144,21 @@ export default class Iterator {
     }
 
     let targetItem = this.shuffleList[this.shuffleCount];
-    if (update !== undefined && typeof(update) === 'function') update();
-    if (this.huffleCount >= p.length() - 1)
-    {
+    if (update !== undefined && typeof(update) === 'function') update(targetItem);
+    if (this.shuffleCount >= this.length - 1){
       if (complete !== undefined && typeof(complete) === 'function') complete();
       this.shuffleCount = -1;
       this.shuffleList = undefined;
     }
     this.shuffleCount++;
     let currentCount = 0;
-    l = _list.length;
-    for (i = 0; i < l; i++) 
-    {
-      if (targetItem === _list[i])
-      {
+    l = this._list.length;
+    for (i = 0; i < l; i++){
+      if (targetItem === this._list[i]){
         currentCount = i;
       }
     }
-    
-    return pickup(currentCount);
+    return this.pickup(currentCount);
   }
   
   killShuffle(){
@@ -174,7 +171,7 @@ export default class Iterator {
    * @param	item 		追加したいItem
    */
   addItem(item){
-    killShuffle();//追加したらシャッフルメソッドを初期化
+    this.killShuffle();//追加したらシャッフルメソッドを初期化
     this._list[this._list.length] = item;
   }
   
@@ -198,7 +195,7 @@ export default class Iterator {
           this._list.splice(i, 1);
           //killしたらカウントは初期値に戻る
           this._index = 0;
-          killShuffle();//削除したらシャッフルメソッドを初期化
+          this.killShuffle();//削除したらシャッフルメソッドを初期化
         }
       }
     }
@@ -211,7 +208,7 @@ export default class Iterator {
     this._list = [];
     //killしたらカウントは初期値に戻る
     this._index = 0;
-    killShuffle();//削除したらシャッフルメソッドを初期化
+    this.killShuffle();//削除したらシャッフルメソッドを初期化
   }
     
   //__________________________________________________________________________________
