@@ -1,7 +1,8 @@
 <template>
   <div>
+    <h2>iterator.{{methodName}}()</h2>
     <div>
-      <button @click="excute(false)">{{methodName}}</button>
+      <button @click="excute(false)">Once</button>
       <button @click="excute(true)">Loop</button>
       <ul>
         <li v-for="(item, i) in list" :key="item">
@@ -41,7 +42,10 @@ export default {
         './images/card_club_07.png',
         './images/card_club_08.png',
         './images/card_club_09.png',
-        './images/card_club_10.png'
+        './images/card_club_10.png',
+        './images/card_club_11.png',
+        './images/card_club_12.png',
+        './images/card_club_13.png'
       ]
     }
   },
@@ -109,6 +113,9 @@ export default {
 };
 </script>
 <style scoped>
+h2 {
+  border-bottom: 1px solid #ccc;
+}
 li{
   list-style: none;
   display: inline-block;   
