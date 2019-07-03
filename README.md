@@ -1,4 +1,7 @@
 # vue-iterator
+イテレータークラスとその使用例を実装した。
+
+[DEMO](https://tktr90755.github.io/vue-iterator/) 
 
 ## Project setup
 ```
