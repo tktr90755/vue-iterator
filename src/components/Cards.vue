@@ -53,8 +53,9 @@ export default {
     Ticker.interval(20);
     this.iterator = new Iterator();
     for(let i in this.list){
-      let path = this.list[i]
-      this.iterator.addItem(new Item(path, path));
+      let path = this.list[i];
+      let content = this.$refs[path][0];
+      this.iterator.addItem(new Item(content, path));
     }
   },
   methods: {
@@ -87,11 +88,13 @@ export default {
     },
     _next(){
       let item = (this.iterator.hasNext())?this.iterator.next():this.iterator.fast();
-      console.log(item.name)
+      console.log('next:' + item.name)
+      item.content.excute()
     },
     _prev(){
       let item = (this.iterator.hasPrev())?this.iterator.prev():this.iterator.last();
-      console.log(item.name)
+      console.log('prev:' + item.name)
+      item.content.excute()
     },
     _shuffle(){
       let init =()=>{
@@ -104,10 +107,12 @@ export default {
         console.log('shuffle complete')
       }
       let item = this.iterator.shuffle(init, update, complete);
+      item.content.excute()
     },
     _random(){
       let item = this.iterator.random();
-      console.log(item.name)
+      console.log('random:' + item.name)
+      item.content.excute()
     }
   }
 };
