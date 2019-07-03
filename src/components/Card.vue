@@ -2,8 +2,8 @@
   <div id="cardlist">
     <ul>
       <li ref="li" @click="excute">
-        <div class="omote" ref="omote"><img :src="imagePath" width="100" height="146"></div>
-        <div class="ura" ref="ura"><img src="/images/card_back.png" width="100" height="146"></div>
+        <div class="omote" ref="omote"><img :src="frontCardPath" width="100" height="146"></div>
+        <div class="ura" ref="ura"><img :src="backCardPath" width="100" height="146"></div>
       </li>
     </ul>
   </div>
@@ -18,7 +18,8 @@ export default {
     }
   },
   props: {
-    imagePath: String
+    frontCardPath: String,
+    backCardPath: String
   },
   mounted(){
     this.back()

@@ -6,7 +6,7 @@
       <button @click="excute(true)">Loop</button>
       <ul>
         <li v-for="(item, i) in list" :key="item">
-          <Card :imagePath=item :ref="item"/>
+          <Card :frontCardPath=item backCardPath="./images/card_back.png" :ref="item"/>
         </li>
       </ul>
     </div>
